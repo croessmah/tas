@@ -5,7 +5,6 @@
 namespace
 {
     wchar_t const * gc_stop_pipe_name = L"\\\\.\\pipe\\tas_stop_pipe";
-
 }//internal linkage
 
 
@@ -23,8 +22,6 @@ tas_application::tas_application(tas_size _max_wait_timeout) :
     {
         return;
     }
-
-
     //todo: log trace
 }
 
@@ -94,6 +91,12 @@ tas_size
 tas_application::tick_time() noexcept
 {
     return m_max_timeout;
+}
+
+
+tas_size tas_application::current_time() noexcept
+{
+    return GetTickCount();
 }
 
 

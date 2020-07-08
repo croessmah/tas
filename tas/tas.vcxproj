@@ -193,6 +193,7 @@
     <ClInclude Include="overlapped_server.h" />
     <ClInclude Include="pipe.h" />
     <ClInclude Include="overlapped.h" />
+    <ClInclude Include="simple_timer.h" />
     <ClInclude Include="types.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

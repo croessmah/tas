@@ -33,6 +33,7 @@ public:
     tas_overlapped_server & overlapped_server() noexcept;
     tas_error error() noexcept;
     tas_size tick_time() noexcept;
+    tas_size current_time() noexcept;
 
     template<typename ... Modules>
     bool run(Modules & ... _modules) noexcept;
@@ -91,7 +92,7 @@ tas_application::run(
         if (!wait_next())
         {
             m_running = false;
-        }
+        }        
     }
     //todo: log debug
     m_osrv.abort_and_wait_all();
