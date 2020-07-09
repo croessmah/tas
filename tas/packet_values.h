@@ -7,6 +7,7 @@ static constexpr unsigned gc_invalid_pdx= ~0u;
 class tas_packet_values
 {
 public:
+    tas_packet_values() : m_values_count(0) {}
     unsigned pdx() noexcept;
     char const * value(unsigned _vdx) noexcept
     {

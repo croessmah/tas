@@ -99,6 +99,6 @@ void tas_controller::process_data() noexcept
     if (packet.parse(m_collector.data(), m_collector.size()) && 
         packet.pdx() < sc_max_packets_count)
     {
-        memcpy(m_packets + packet.pdx(), &packet, sizeof(packet));
+        m_packets[packet.pdx()] = packet;
     }
 }
