@@ -1,4 +1,7 @@
 #pragma once
+#ifndef INCLUDE_TAS_TCP_COLLECTOR_H
+#define INCLUDE_TAS_TCP_COLLECTOR_H
+
 #include <cstdint>
 #include "tcp_header.h"
 
@@ -6,11 +9,11 @@
 class tas_tcp_collector
 {
 public:
-    tas_tcp_collector(char * _buffer, uint32_t _size) noexcept;
-    char * data() noexcept { return m_stream_begin; }
-    unsigned size() noexcept { return m_stream_size; }
-    unsigned lost() noexcept { return m_stream_capacity - m_stream_size; }
-    unsigned set_buffer(char * _buffer, uint32_t _size) noexcept;
+    static constexpr unsigned sc_max_buffer_size = 2048;
+    tas_tcp_collector() noexcept;
+    char * data() noexcept { return m_buffer; }
+    unsigned size() noexcept { return m_buffer_size; }
+    unsigned lost() noexcept { return sc_max_buffer_size - m_buffer_size; }
     bool update(char const * _tcp_frame, uint32_t _size) noexcept;
 private:
     using state_function_t = bool (tas_tcp_collector::*)();
@@ -32,9 +35,10 @@ private:
     uint32_t m_tcp_frame_size;
     uint32_t m_next_ack;
     uint32_t m_next_seq;
-    char * m_stream_begin;
-    uint32_t m_stream_size;
-    uint32_t m_stream_capacity;
+    char m_buffer[sc_max_buffer_size];
+    uint32_t m_buffer_size;
     unsigned m_state;
 };
 
+
+#endif //INCLUDE_TAS_TCP_COLLECTOR_H

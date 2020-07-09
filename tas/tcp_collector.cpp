@@ -14,22 +14,13 @@ enum eTCP_COLLECTOR_STATES : unsigned
     TCP_CS_COUNT
 };
 
-tas_tcp_collector::tas_tcp_collector(char * _buffer, uint32_t _size) noexcept:
-    m_stream_begin(_buffer),
-    m_stream_size(0),
-    m_stream_capacity(_size),
+tas_tcp_collector::tas_tcp_collector() noexcept:
+    m_buffer{},
+    m_buffer_size(0),
     m_state(TCP_CS_INVALID)
 {
 }
 
-
-unsigned tas_tcp_collector::set_buffer(char * _buffer, uint32_t _size) noexcept
-{
-    m_stream_begin = _buffer;
-    m_stream_capacity = _size;
-    m_stream_size = 0;
-    return 0;
-}
 
 bool tas_tcp_collector::update(char const * _tcp_frame, uint32_t _size) noexcept
 {    
@@ -62,15 +53,15 @@ bool tas_tcp_collector::append() noexcept
     {
         return false;
     }
-    memcpy(m_stream_begin + m_stream_size, data, size);
-    m_stream_size += size;
+    memcpy(m_buffer + m_buffer_size, data, size);
+    m_buffer_size += size;
     return true;
 }
 
 
 bool inline tas_tcp_collector::state_invalid() noexcept
 {
-    m_stream_size = 0;
+    m_buffer_size = 0;
     m_state = TCP_CS_WAIT_SYNC;
     return true;
 }

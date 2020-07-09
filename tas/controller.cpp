@@ -7,10 +7,7 @@
 
 tas_controller::tas_controller(char const * _name, uint32_t _ip) noexcept:
     m_ip(_ip),
-    m_front_buffer(m_buffer),
-    m_back_buffer(m_buffer + sc_buffer_size),
-    m_collector(m_back_buffer, sc_buffer_size),
-    m_front_buffer_size(0)
+    m_name{}
 {
     assert(strlen(_name) < sizeof(m_name) && "name buffer is too small");
     strcpy(m_name, _name);
@@ -90,40 +87,14 @@ bool tas_controller::process_ip(char const *& _data, unsigned & _size) noexcept
 
 bool tas_controller::process_tcp(char const * _data, unsigned _size) noexcept
 {
-    tas_tcp_header hdr;/*
-    if (sizeof(hdr) <= _size)
-    {
-        memcpy(&hdr, _data, sizeof(hdr));
-        if (hdr.full_header_length() <= _size)
-        {
-            std::cout
-                << "asc num: " << ntohl(hdr.ack_num()) << " "
-                << "seq num: " << ntohl(hdr.seq_num()) << "\n"
-                << "fin:" << hdr.fin() << " "
-                << "rst:" << hdr.rst() << " "
-                << "syn:" << hdr.syn() << " "
-                << "ack:" << hdr.ack() << " "
-                << "psh:" << hdr.psh() << " ";
-        }
-    }*/
-    bool completed = m_collector.update(_data, _size);
-    if (completed)
-    {
-        m_front_buffer_size = m_collector.size();
-        char * tmp = m_front_buffer;
-        m_front_buffer = m_back_buffer;
-        m_back_buffer = tmp;
-        m_collector.set_buffer(m_back_buffer, sc_buffer_size);
-    }
-    return completed;
+    return m_collector.update(_data, _size);;
 }
 
 void tas_controller::process_data() noexcept
 {
-    if (m_front_buffer_size != 0)
-    {
-        //todo: find from end
-        m_front_buffer_size = strlen(m_front_buffer);
-    }
     //(std::cout << "tcp data size: " << m_front_buffer_size << "\n").write(m_front_buffer, m_front_buffer_size);
+}
+
+void tas_controller::update_values() noexcept
+{
 }
