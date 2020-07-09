@@ -187,6 +187,7 @@
     <ClCompile Include="pipe.cpp" />
     <ClCompile Include="tas.cpp" />
     <ClCompile Include="overlapped.cpp" />
+    <ClCompile Include="tcp_collector.cpp" />
     <ClCompile Include="tcp_stream.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -194,12 +195,12 @@
     <ClInclude Include="controller.h" />
     <ClInclude Include="module_sniffer.h" />
     <ClInclude Include="module_timed_stop.h" />
-    <ClInclude Include="net_integer.h" />
     <ClInclude Include="operation.h" />
     <ClInclude Include="overlapped_server.h" />
     <ClInclude Include="pipe.h" />
     <ClInclude Include="overlapped.h" />
     <ClInclude Include="simple_timer.h" />
+    <ClInclude Include="tcp_collector.h" />
     <ClInclude Include="tcp_header.h" />
     <ClInclude Include="tcp_stream.h" />
     <ClInclude Include="types.h" />

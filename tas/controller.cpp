@@ -5,13 +5,11 @@
 #include "controller.h"
 
 
-#include <iostream>
-
 tas_controller::tas_controller(char const * _name, uint32_t _ip) noexcept:
     m_ip(_ip),
     m_front_buffer(m_buffer),
     m_back_buffer(m_buffer + sc_buffer_size),
-    m_stream(m_back_buffer, sc_buffer_size),
+    m_collector(m_back_buffer, sc_buffer_size),
     m_front_buffer_size(0)
 {
     assert(strlen(_name) < sizeof(m_name) && "name buffer is too small");
@@ -22,21 +20,11 @@ tas_controller::tas_controller(char const * _name, uint32_t _ip) noexcept:
 bool tas_controller::update(char const * _data, unsigned _size) noexcept
 {
     if (process_e2(_data, _size) && process_ip(_data, _size))
-    {/*
-        if (!strcmp(m_name, "ft5p"))
-        {
-            return true;
-        }*/
-        std::cout << m_name << " ";
+    {
         if (process_tcp(_data, _size))
         {
-            if (m_front_buffer_size != 0)
-            {
-                m_front_buffer_size = strlen(m_front_buffer);
-            }
-            (std::cout << "tcp data size: " << m_front_buffer_size << "\n").write(m_front_buffer, m_front_buffer_size);
+            process_data();
         }
-        std::cout << "\n\n";
         return true;
     }
     return false;
@@ -118,19 +106,24 @@ bool tas_controller::process_tcp(char const * _data, unsigned _size) noexcept
                 << "psh:" << hdr.psh() << " ";
         }
     }*/
-    bool completed = m_stream.update(_data, _size);
+    bool completed = m_collector.update(_data, _size);
     if (completed)
     {
-        m_front_buffer_size = m_stream.size();
+        m_front_buffer_size = m_collector.size();
         char * tmp = m_front_buffer;
         m_front_buffer = m_back_buffer;
         m_back_buffer = tmp;
-        m_stream.set_buffer(m_back_buffer, sc_buffer_size);
+        m_collector.set_buffer(m_back_buffer, sc_buffer_size);
     }
     return completed;
 }
 
-bool tas_controller::process_data(char const *& _data, unsigned & _size) noexcept
+void tas_controller::process_data() noexcept
 {
-    return false;
+    if (m_front_buffer_size != 0)
+    {
+        //todo: find from end
+        m_front_buffer_size = strlen(m_front_buffer);
+    }
+    //(std::cout << "tcp data size: " << m_front_buffer_size << "\n").write(m_front_buffer, m_front_buffer_size);
 }
