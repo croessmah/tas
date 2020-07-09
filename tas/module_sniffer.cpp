@@ -15,8 +15,6 @@
 
 #include <pcap.h>
 
-#include <iostream>
-
 
 namespace
 {
@@ -54,7 +52,7 @@ tas_md_sniffer::tas_md_sniffer(
     m_controllers_count(_ctl_count),
     m_adapter_ip(0),
     m_restart_timer(2000),
-    m_no_packet_timer(5000),
+    m_no_packet_timer(10000),
     m_packet_count_on_tick(_app.tick_time() / 50 + 1),
     m_tcp_table(nullptr),
     m_tcp_table_size(0),
@@ -157,10 +155,8 @@ tas_md_sniffer::create_capture_device() noexcept
     assert(m_capture_device == nullptr && "previous device not closed");
     if (!update_adapter_ip())
     {
-        std::cout << "no ip found\n";
         return false;
     }
-    std::cout << "restart sniffer\n";
     char error_text_buffer[PCAP_ERRBUF_SIZE];
     char src_if_string[] = PCAP_SRC_IF_STRING;
     pcap_if_t * devices_list = nullptr;
@@ -179,6 +175,7 @@ tas_md_sniffer::create_capture_device() noexcept
             {
                 close_capture_device();
             }
+            m_no_packet_timer.reset();
             //todo: log error
             pcap_freealldevs(devices_list);
             break;
@@ -206,7 +203,6 @@ tas_md_sniffer::capture_packets() noexcept
         int res = next_packet(buf, size);
         if (res == 1)
         {
-            m_no_packet_timer.reset();
             process_packet(buf, size);
         }
         else
@@ -238,7 +234,14 @@ tas_md_sniffer::next_packet(char const *& _buf, tas_size & _size) noexcept
 
 void tas_md_sniffer::process_packet(char const * _buf, tas_size _size) noexcept
 {
-    std::cout << "packet size: " << _size << "\n";
+    for (unsigned i = 0; i < m_controllers_count; ++i)
+    {
+        if (m_controllers[i].update(_buf, static_cast<unsigned>(_size)))
+        {
+            m_no_packet_timer.reset();
+            break;
+        }
+    }
 }
 
 
@@ -314,7 +317,6 @@ void tas_md_sniffer::generate_filter(char * _buf, tas_size _buf_size) noexcept
         ip_to_str(m_controllers[i].ip(), buffer + length, sizeof(buffer) - length);
         strcat(_buf, buffer);
     }
-    std::cout << "filter: " << _buf << "\n";
 }
 
 
@@ -322,7 +324,6 @@ void tas_md_sniffer::close_capture_device() noexcept
 {
     if (m_capture_device)
     {
-        std::cout << "close capture device\n";
         pcap_close(m_capture_device);
         m_capture_device = nullptr;
     }

@@ -7,15 +7,12 @@
 #include <Iphlpapi.h>
 #include <ws2tcpip.h>
 #include <iostream>
-#include <iomanip>
-#include <utility>
-#include <iostream>
 #include "application.h"
 #include "controller.h"
 #include "module_timed_stop.h"
 #include "module_sniffer.h"
 
-
+#include <iostream>
 
 bool str_to_ip(char const * _str, uint32_t & _ip) noexcept
 {
@@ -37,7 +34,7 @@ char * ip_to_str(uint32_t _ip, char * _buf, unsigned _size) noexcept
 }
 
 
-int main()
+int start_application()
 {
     uint32_t srgm_ip = 0; ;
     uint32_t ft5p_ip = 0; ;
@@ -46,7 +43,7 @@ int main()
         std::cout << "convert ip error" << std::endl;
         return EXIT_SUCCESS;
     }
-    tas_controller controllers[2] = 
+    tas_controller controllers[2] =
     {
         {"srgm", srgm_ip},
         {"ft5p", ft5p_ip},
@@ -66,5 +63,12 @@ int main()
     }
     std::cout << sizeof(long double) << std::endl;
 
-
+    return 0;
 }
+
+
+int main()
+{
+    return start_application();
+}
+
