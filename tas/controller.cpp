@@ -4,10 +4,12 @@
 #include "tcp_header.h"
 #include "controller.h"
 
+#include <iostream>
 
 tas_controller::tas_controller(char const * _name, uint32_t _ip) noexcept:
     m_ip(_ip),
-    m_name{}
+    m_name{},
+    m_packets_count(0)
 {
     assert(strlen(_name) < sizeof(m_name) && "name buffer is too small");
     strcpy(m_name, _name);
@@ -87,14 +89,16 @@ bool tas_controller::process_ip(char const *& _data, unsigned & _size) noexcept
 
 bool tas_controller::process_tcp(char const * _data, unsigned _size) noexcept
 {
+
     return m_collector.update(_data, _size);;
 }
 
 void tas_controller::process_data() noexcept
 {
-    //(std::cout << "tcp data size: " << m_front_buffer_size << "\n").write(m_front_buffer, m_front_buffer_size);
-}
-
-void tas_controller::update_values() noexcept
-{
+    tas_packet_values packet;
+    if (packet.parse(m_collector.data(), m_collector.size()) && 
+        packet.pdx() < sc_max_packets_count)
+    {
+        memcpy(m_packets + packet.pdx(), &packet, sizeof(packet));
+    }
 }

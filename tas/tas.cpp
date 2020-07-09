@@ -51,7 +51,7 @@ int start_application()
 
     tas_application app(300 /*event wait ms period*/);
     tas_md_sniffer md_sniff(app, controllers, 2);
-    tas_md_timed_stop mts{ 60000/*app stop timeout ms*/ };
+    tas_md_timed_stop mts{ 120000/*app stop timeout ms*/ };
 
     if (!app.run(mts, md_sniff))
     {

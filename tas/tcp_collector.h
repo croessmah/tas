@@ -5,7 +5,6 @@
 #include <cstdint>
 #include "tcp_header.h"
 
-
 class tas_tcp_collector
 {
 public:

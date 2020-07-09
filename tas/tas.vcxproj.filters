@@ -39,10 +39,10 @@
     <ClCompile Include="controller.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="tcp_stream.cpp">
+    <ClCompile Include="tcp_collector.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="tcp_collector.cpp">
+    <ClCompile Include="packet_values.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -77,13 +77,13 @@
     <ClInclude Include="simple_timer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="tcp_stream.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="tcp_header.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="tcp_collector.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="packet_values.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
