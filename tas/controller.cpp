@@ -8,8 +8,7 @@
 
 tas_controller::tas_controller(char const * _name, uint32_t _ip) noexcept:
     m_ip(_ip),
-    m_name{},
-    m_packets_count(0)
+    m_name{}
 {
     assert(strlen(_name) < sizeof(m_name) && "name buffer is too small");
     strcpy(m_name, _name);

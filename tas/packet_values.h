@@ -11,7 +11,7 @@ public:
     unsigned pdx() noexcept;
     char const * value(unsigned _vdx) noexcept
     {
-        return (m_values_count < _vdx) ? m_values[_vdx].str : nullptr;
+        return (_vdx < m_values_count) ? m_values[_vdx].str : nullptr;
     }
 
     bool parse(char const * _data, unsigned _size) noexcept;

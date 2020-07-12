@@ -10,6 +10,7 @@
 class tas_cdx
 {
 public:
+    tas_cdx(uint16_t _cdx): m_idx(_cdx) {}
     tas_cdx(uint16_t _pdx, uint16_t _vdx) noexcept : m_idx((_pdx << 10) | (_vdx & 0x3FF)) {}
     uint16_t pdx() noexcept { return m_idx >> 10; }
     uint16_t vdx() noexcept { return m_idx & 0x3FF; }
@@ -24,9 +25,13 @@ public:
     tas_controller(char const * _name, uint32_t _ip) noexcept;
     bool update(char const * _data, unsigned _size) noexcept;
     uint32_t ip() noexcept;
+    char const * name() noexcept
+    {
+        return m_name;
+    }
     char const * value(tas_cdx _cdx) noexcept
     {
-        return (_cdx.pdx() < m_packets_count) ? 
+        return (_cdx.pdx() < sc_max_packets_count) ?
             m_packets[_cdx.pdx()].value(_cdx.vdx()) : 
             nullptr;
     }
@@ -39,7 +44,6 @@ private:
     uint32_t m_ip;
     tas_tcp_collector m_collector;
     tas_packet_values m_packets[sc_max_packets_count];
-    unsigned m_packets_count;
     char m_name[8];
 };
 
