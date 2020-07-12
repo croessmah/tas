@@ -2,7 +2,6 @@
 #include "module_timed_stop.h"
 #include "application.h"
 
-#include <iostream>
 
 tas_error tas_md_timed_stop::start(tas_application & _app) noexcept
 {

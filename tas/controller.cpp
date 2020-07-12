@@ -4,7 +4,6 @@
 #include "tcp_header.h"
 #include "controller.h"
 
-#include <iostream>
 
 tas_controller::tas_controller(char const * _name, uint32_t _ip) noexcept:
     m_ip(_ip),
