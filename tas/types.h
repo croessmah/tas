@@ -10,6 +10,8 @@ class tas_overlapped_server;
 class tas_named_pipe;
 struct tas_pipe_options;
 struct tas_operation;
+class tas_application;
+class tas_controller;
 
 typedef void(*tas_operation_callback)(tas_overlapped_server & _srv, tas_operation const & _operation, tas_error _e);
 

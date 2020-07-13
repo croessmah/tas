@@ -107,6 +107,7 @@ tas_overlapped_server::write_file(
     {
         operation(index)->written = written;
         SetEvent(event(index));
+        return ERROR_SUCCESS;
     }
     else if (!success && (err == ERROR_IO_PENDING))
     {
@@ -134,7 +135,6 @@ tas_overlapped_server::read_file(
         return is_aborted() ? ERROR_OPERATION_ABORTED : ERROR_IO_PENDING;
     }
     tas_error err = ERROR_SUCCESS;
-    DWORD written = 0;
     bool success = ReadFile(
         file(index),
         operation(index)->buffer,
@@ -143,9 +143,10 @@ tas_overlapped_server::read_file(
         overlapped(index)->raw()
     );
     err = GetLastError();
-    if (success && (written != 0))
+    if (success && (operation(index)->written != 0))
     {
         SetEvent(event(index));
+        return ERROR_SUCCESS;
     }
     else if (!success && (err == ERROR_IO_PENDING))
     {
@@ -166,7 +167,13 @@ tas_overlapped_server::wait(
     tas_error err = ERROR_SUCCESS;    
     if (tas_operation * operation = wait_aux(_timeout, err))
     {
-        operation->callback(*this, *operation, err);
+        tas_operation operation_copy = *operation;
+        operation_copy.callback(*this, operation_copy, err);
+        return ERROR_SUCCESS;
+    }
+    else if (err == ERROR_TIMEOUT)
+    {
+        return ERROR_SUCCESS;
     }
     return err;
 }

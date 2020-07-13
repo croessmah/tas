@@ -78,7 +78,6 @@ bool tas_packet_values::parse_aux(char const * _data, unsigned _size) noexcept
             return false;
         }
         unsigned size = end - begin;
-        assert("Value is too long" && size < sc_max_value_size);
         assert("Values buffer is too small" && m_values_count < sc_max_values_count);
         if (!(m_values_count < sc_max_values_count))
         {

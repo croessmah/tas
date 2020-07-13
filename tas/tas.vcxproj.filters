@@ -45,6 +45,12 @@
     <ClCompile Include="packet_values.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="module_ipc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="client.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="operation.h">
@@ -84,6 +90,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="packet_values.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="module_ipc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="client.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

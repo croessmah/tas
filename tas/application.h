@@ -101,7 +101,7 @@ tas_application::run(
     //todo: log debug
     set_stop_event();
     //todo: log debug
-    return error() == ERROR_SUCCESS;
+    return error() == 0;
 }
 
 
@@ -118,12 +118,12 @@ inline bool
 tas_application::start_modules(Modules & ... _modules) noexcept
 {
     static_assert(sizeof...(_modules) != 0, "No modules");
-    m_error = ERROR_SUCCESS;
+    m_error = 0;
     if ((... || (m_error = _modules.start(*this))))
     {
         stop_modules(_modules...);
     }
-    return m_error == ERROR_SUCCESS;
+    return m_error == 0;
 }
 
 
