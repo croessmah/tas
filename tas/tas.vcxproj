@@ -187,6 +187,7 @@
     <ClCompile Include="module_timed_stop.cpp" />
     <ClCompile Include="overlapped_server.cpp" />
     <ClCompile Include="pipe.cpp" />
+    <ClCompile Include="query_parser.cpp" />
     <ClCompile Include="tas.cpp" />
     <ClCompile Include="overlapped.cpp" />
     <ClCompile Include="packet_values.cpp" />
@@ -203,6 +204,7 @@
     <ClInclude Include="overlapped_server.h" />
     <ClInclude Include="pipe.h" />
     <ClInclude Include="overlapped.h" />
+    <ClInclude Include="query_parser.h" />
     <ClInclude Include="simple_timer.h" />
     <ClInclude Include="packet_values.h" />
     <ClInclude Include="tcp_collector.h" />

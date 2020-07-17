@@ -5,12 +5,10 @@
 #include "controller.h"
 
 
-tas_controller::tas_controller(char const * _name, uint32_t _ip) noexcept:
+tas_controller::tas_controller( uint32_t _ip) noexcept:
     m_ip(_ip),
-    m_name{}
+    m_last_update(0)
 {
-    assert(strlen(_name) < sizeof(m_name) && "name buffer is too small");
-    strcpy(m_name, _name);
 }
 
 
@@ -31,6 +29,15 @@ bool tas_controller::update(char const * _data, unsigned _size) noexcept
 uint32_t tas_controller::ip() noexcept
 {
     return m_ip;
+}
+
+uint64_t tas_controller::update_lost_ms() noexcept
+{
+    if (m_last_update == 0)
+    {
+        return UINT64_MAX;
+    }
+    return GetTickCount64() - m_last_update;
 }
 
 bool tas_controller::process_e2(char const *& _data, unsigned & _size) noexcept
@@ -98,5 +105,6 @@ void tas_controller::process_data() noexcept
         packet.pdx() < sc_max_packets_count)
     {
         m_packets[packet.pdx()] = packet;
+        m_last_update = GetTickCount64();
     }
 }

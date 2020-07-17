@@ -22,7 +22,7 @@ private:
         m_max_silent_time(_max_silent_time)
     {
     }
-    static constexpr unsigned sc_max_clients = 5;
+    static constexpr unsigned sc_max_clients = tas_client::sc_pipes_options.max_instances;
     static_assert(sc_max_clients <= tas_client::sc_pipes_options.max_instances, "Too many clients");
     tas_client m_clients[sc_max_clients];
     tas_size m_max_silent_time;

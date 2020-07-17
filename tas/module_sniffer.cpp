@@ -51,7 +51,7 @@ tas_md_sniffer::tas_md_sniffer(
     m_controllers(_ctl),
     m_controllers_count(_ctl_count),
     m_adapter_ip(0),
-    m_restart_timer(2000),
+    m_restart_timer(500),
     m_no_packet_timer(10000),
     m_packet_count_on_tick(_app.tick_time() / 50 + 1),
     m_tcp_table(nullptr),

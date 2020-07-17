@@ -69,7 +69,7 @@ tas_named_pipe::create(wchar_t const * _name, tas_pipe_options const & _options)
         _options.max_instances, 
         _options.sys_out_buffer_size, 
         _options.sys_in_buffer_size, 
-        100, 
+        0, 
         NULL
     );
     return (m_handle != INVALID_HANDLE_VALUE) ? ERROR_SUCCESS : GetLastError();

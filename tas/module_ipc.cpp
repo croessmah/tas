@@ -43,7 +43,7 @@ void tas_md_ipc::tick(tas_application & _app) noexcept
         if (client.connected() &&
             m_max_silent_time < (_app.current_time() - client.last_time()))
         {
-            client.reaccept(_app.overlapped_server());
+            client.abort();
         }
     }
 }

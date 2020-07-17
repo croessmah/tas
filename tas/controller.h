@@ -22,19 +22,17 @@ private:
 class tas_controller
 {
 public:
-    tas_controller(char const * _name, uint32_t _ip) noexcept;
+    tas_controller(uint32_t _ip) noexcept;
     bool update(char const * _data, unsigned _size) noexcept;
     uint32_t ip() noexcept;
-    char const * name() noexcept
-    {
-        return m_name;
-    }
     char const * value(tas_cdx _cdx) noexcept
     {
         return (_cdx.pdx() < sc_max_packets_count) ?
             m_packets[_cdx.pdx()].value(_cdx.vdx()) : 
             nullptr;
     }
+
+    uint64_t update_lost_ms() noexcept;
 private:    
     bool process_e2(char const *& _data, unsigned & _size) noexcept;
     bool process_ip(char const *& _data, unsigned & _size) noexcept;
@@ -42,9 +40,9 @@ private:
     void process_data() noexcept;
     static constexpr unsigned sc_max_packets_count = 3;
     uint32_t m_ip;
+    uint64_t m_last_update;
     tas_tcp_collector m_collector;
     tas_packet_values m_packets[sc_max_packets_count];
-    char m_name[8];
 };
 
 
