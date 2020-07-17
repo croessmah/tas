@@ -248,7 +248,7 @@ void tas_md_sniffer::process_packet(char const * _buf, tas_size _size) noexcept
 bool 
 tas_md_sniffer::find_tcp_connection() noexcept
 {
-    alignas(alignof(MIB_TCPTABLE)) char local_buffer[32 * sizeof(MIB_TCPROW) + sizeof(MIB_TCPTABLE)];
+    alignas(alignof(MIB_TCPTABLE)) char local_buffer[64 * sizeof(MIB_TCPROW) + sizeof(MIB_TCPTABLE)];
     void * buffer = (m_tcp_table == nullptr) ? local_buffer : m_tcp_table;
     DWORD buffer_size = (m_tcp_table == nullptr)? sizeof(local_buffer): m_tcp_table_size;
     DWORD tcp_result = 0;
