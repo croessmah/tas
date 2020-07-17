@@ -37,7 +37,7 @@ private:
 
 
     constexpr static tas_size sc_invalid_index = ~tas_size(0u);
-    constexpr static tas_size sc_max_handles = 32u;
+    constexpr static tas_size sc_max_handles = 10u;
     tas_overlapped m_overlappeds_storage[sc_max_handles];
     tas_operation m_operations_storage[sc_max_handles];
     tas_operation * m_operations[sc_max_handles];
