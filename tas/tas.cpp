@@ -1,10 +1,4 @@
-﻿// tas.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
-
-//#include <WinSock2.h>
-//#include <Windows.h>
-//#include <netioapi.h>
-//#include <Iphlpapi.h>
+﻿
 #include <ws2tcpip.h>
 #include <cassert>
 #include "application.h"
