@@ -44,6 +44,9 @@ private:
     bool start_modules(Modules & ... _modules) noexcept;
     template<typename ... Modules>
     void stop_modules(Modules & ... _modules) noexcept;
+    template<typename Module>
+    bool start_module(Module & _module) noexcept;
+
 
     bool init_run() noexcept;
     bool wait_next() noexcept;
@@ -119,11 +122,12 @@ tas_application::start_modules(Modules & ... _modules) noexcept
 {
     static_assert(sizeof...(_modules) != 0, "No modules");
     m_error = 0;
-    if ((... || (m_error = _modules.start(*this))))
+    if ((... && this->start_module(_modules)))
     {
-        stop_modules(_modules...);
+        return true;
     }
-    return m_error == 0;
+    stop_modules(_modules...);
+    return false;
 }
 
 
@@ -133,6 +137,14 @@ tas_application::stop_modules(Modules & ... _modules) noexcept
 {
     static_assert(sizeof...(_modules) != 0, "No modules");
     return (_modules.stop(*this), ...);
+}
+
+
+template<typename Module>
+bool tas_application::start_module(Module & _module) noexcept
+{
+    m_error = _module.start(*this);
+    return m_error == 0;
 }
 
 

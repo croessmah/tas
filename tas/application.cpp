@@ -40,8 +40,6 @@ tas_error
 tas_application::stop(tas_size _timeout) noexcept
 {
     HANDLE pipe = INVALID_HANDLE_VALUE;
-    size_t repeat_count = 0;
-    DWORD last_ticks = GetTickCount();
     pipe = CreateFileW(gc_stop_pipe_name, GENERIC_READ, 0, NULL, OPEN_EXISTING, 0, NULL);
     if (pipe == INVALID_HANDLE_VALUE)
     {
@@ -195,7 +193,7 @@ tas_application::ready() noexcept
 
 
 void
-tas_application::stop_signal_receive(tas_overlapped_server & _srv, tas_operation const & _operation, tas_error _e)
+tas_application::stop_signal_receive(tas_overlapped_server &, tas_operation const & _operation, tas_error)
 {
     tas_application * app = static_cast<tas_application *>(_operation.exdata);
     app->stop_event();

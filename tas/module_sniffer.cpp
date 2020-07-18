@@ -81,7 +81,7 @@ tas_md_sniffer::start(tas_application & _app) noexcept
 }
 
 
-void tas_md_sniffer::stop(tas_application & _app) noexcept
+void tas_md_sniffer::stop(tas_application &) noexcept
 {
     close_capture_device();
 }
@@ -275,9 +275,9 @@ tas_md_sniffer::find_tcp_connection() noexcept
     for (DWORD i = 0; i < tcp_table->dwNumEntries; ++i)
     {
         PMIB_TCPROW row = &tcp_table->table[i];
-        for (unsigned i = 0; i < m_controllers_count; ++i)
+        for (unsigned j = 0; j < m_controllers_count; ++j)
         {
-            if (row->dwRemoteAddr == m_controllers[i].ip() && 
+            if (row->dwRemoteAddr == m_controllers[j].ip() && 
                 row->State == MIB_TCP_STATE_ESTAB)
             {
                 m_adapter_ip = row->dwLocalAddr;

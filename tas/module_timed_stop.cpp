@@ -3,14 +3,14 @@
 #include "application.h"
 
 
-tas_error tas_md_timed_stop::start(tas_application & _app) noexcept
+tas_error tas_md_timed_stop::start(tas_application &) noexcept
 {
     m_start_time = GetTickCount();
     return ERROR_SUCCESS;
 }
 
 
-void tas_md_timed_stop::stop(tas_application & _app) noexcept
+void tas_md_timed_stop::stop(tas_application &) noexcept
 {
 
 }

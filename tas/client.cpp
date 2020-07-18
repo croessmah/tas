@@ -159,7 +159,7 @@ void tas_client::callback_read(tas_overlapped_server & _srv, tas_operation const
 }
 
 
-void tas_client::callback_write(tas_overlapped_server & _srv, tas_operation const & _operation, tas_error _e)
+void tas_client::callback_write(tas_overlapped_server & _srv, tas_operation const & _operation, tas_error)
 {
     tas_client * client = static_cast<tas_client *>(_operation.exdata);
     client->m_last_update_time = GetTickCount();

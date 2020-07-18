@@ -15,7 +15,6 @@ tas_md_ipc::tas_md_ipc(tas_controller * _controllers, unsigned _count, tas_size 
 
 tas_error tas_md_ipc::start(tas_application & _app) noexcept
 {
-    tas_error err = 0;
     for (auto & client: m_clients)
     {
         if (!client.to_work(_app.overlapped_server()))
@@ -27,7 +26,7 @@ tas_error tas_md_ipc::start(tas_application & _app) noexcept
 }
 
 
-void tas_md_ipc::stop(tas_application & _app) noexcept
+void tas_md_ipc::stop(tas_application &) noexcept
 {
     for (auto & e : m_clients)
     {
