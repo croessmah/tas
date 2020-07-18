@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="scripts">
+      <UniqueIdentifier>{25d428dc-9fbf-44d3-932b-64fc3f74fc21}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="tas.cpp">
@@ -104,5 +107,19 @@
     <ClInclude Include="query_parser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="scripts\install.bat">
+      <Filter>scripts</Filter>
+    </None>
+    <None Include="scripts\remove.bat">
+      <Filter>scripts</Filter>
+    </None>
+    <None Include="scripts\start.bat">
+      <Filter>scripts</Filter>
+    </None>
+    <None Include="scripts\stop.bat">
+      <Filter>scripts</Filter>
+    </None>
   </ItemGroup>
 </Project>
