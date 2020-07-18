@@ -109,17 +109,17 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="scripts\install.bat">
-      <Filter>scripts</Filter>
-    </None>
-    <None Include="scripts\remove.bat">
-      <Filter>scripts</Filter>
-    </None>
-    <None Include="scripts\start.bat">
-      <Filter>scripts</Filter>
-    </None>
-    <None Include="scripts\stop.bat">
-      <Filter>scripts</Filter>
-    </None>
+    <CopyFileToFolders Include="scripts\install.bat">
+      <Filter>Source Files</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="scripts\remove.bat">
+      <Filter>Source Files</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="scripts\start.bat">
+      <Filter>Source Files</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="scripts\stop.bat">
+      <Filter>Source Files</Filter>
+    </CopyFileToFolders>
   </ItemGroup>
 </Project>
