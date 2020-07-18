@@ -33,9 +33,6 @@
     <ClCompile Include="application.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="module_timed_stop.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="module_sniffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -75,9 +72,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="application.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="module_timed_stop.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="module_sniffer.h">

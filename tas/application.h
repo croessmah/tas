@@ -2,7 +2,6 @@
 #ifndef INCLUDE_TAS_APPLICATION_H
 #define INCLUDE_TAS_APPLICATION_H
 
-#include <tuple>
 #include "types.h"
 #include "overlapped_server.h"
 #include "pipe.h"

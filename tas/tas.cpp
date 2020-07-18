@@ -3,7 +3,6 @@
 #include <cassert>
 #include "application.h"
 #include "controller.h"
-#include "module_timed_stop.h"
 #include "module_sniffer.h"
 #include "module_ipc.h"
 
@@ -203,7 +202,6 @@ void WINAPI service_main(DWORD, LPWSTR*)
     }
        
     tas_md_sniffer md_sniff(app, controllers, 2);
-    //tas_md_timed_stop mts{ 1200000/*app stop timeout ms*/ };
     tas_md_ipc mipc(controllers, 2, 3000);
 
     gc_service_status.dwCurrentState = SERVICE_RUNNING;

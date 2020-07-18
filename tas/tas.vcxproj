@@ -107,7 +107,6 @@
     <ClCompile Include="controller.cpp" />
     <ClCompile Include="module_ipc.cpp" />
     <ClCompile Include="module_sniffer.cpp" />
-    <ClCompile Include="module_timed_stop.cpp" />
     <ClCompile Include="overlapped_server.cpp" />
     <ClCompile Include="pipe.cpp" />
     <ClCompile Include="query_parser.cpp" />
@@ -122,7 +121,6 @@
     <ClInclude Include="controller.h" />
     <ClInclude Include="module_ipc.h" />
     <ClInclude Include="module_sniffer.h" />
-    <ClInclude Include="module_timed_stop.h" />
     <ClInclude Include="operation.h" />
     <ClInclude Include="overlapped_server.h" />
     <ClInclude Include="pipe.h" />
