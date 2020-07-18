@@ -18,7 +18,8 @@ tas_application::tas_application(tas_size _max_wait_timeout) :
 {
     set_owned_thread();
     m_stopped_event = CreateEvent(NULL, TRUE, FALSE, NULL);
-    if ((m_error = m_stop_pipe.create(gc_stop_pipe_name, { 1, 0, 0, eTAS_NPIPE_MODE::TAS_NP_MODE_INOUT })))
+    m_error = m_stop_pipe.create(gc_stop_pipe_name, { 1, 0, 0, eTAS_NPIPE_MODE::TAS_NP_MODE_INOUT });
+    if (m_error)
     {
         return;
     }
@@ -193,7 +194,7 @@ tas_application::ready() noexcept
 
 
 void
-tas_application::stop_signal_receive(tas_overlapped_server &, tas_operation const & _operation, tas_error)
+tas_application::stop_signal_receive(tas_overlapped_server &, tas_operation const & _operation, tas_error )
 {
     tas_application * app = static_cast<tas_application *>(_operation.exdata);
     app->stop_event();
