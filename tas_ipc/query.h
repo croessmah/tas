@@ -18,11 +18,6 @@ namespace tas
         void remove_param(uint16_t _pdx, uint16_t _vdx);
         std::string_view get_param(uint16_t _pdx, uint16_t _vdx);
     private:
-        static inline uint16_t make_cdx(uint16_t _pdx, uint16_t _vdx) noexcept
-        {
-            return (_pdx << uint16_t(10u)) | (_vdx & uint16_t(0x3FF));
-        }
-
         struct param
         {
             std::string_view view;
