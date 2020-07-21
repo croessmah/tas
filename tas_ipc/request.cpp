@@ -60,6 +60,7 @@ namespace tas
 
     request::request()
     {
+        m_request_text.reserve(sc_max_request_size);
     }
 
 
@@ -111,28 +112,12 @@ namespace tas
         char * end = std::end(text_buffer);
         end = std::to_chars(begin, end, _num).ptr;
         unsigned size = static_cast<unsigned>(end - text_buffer);
-        if (size <= (m_request_text.capacity() - m_request_text.size()))
+        if (size <= (sc_max_request_size - m_request_text.size()))
         {
             m_request_text.append(text_buffer, size);
             return true;
         }
         return false;
-    }
-
-
-    request & request::set_request_text(std::string const & _source)
-    {
-        return swap(std::string(_source));
-    }
-
-    request & request::swap(std::string && _source)
-    {
-        if (_source.size() <= sc_max_request_size)
-        {
-            m_request_text.swap(_source);
-            return *this;
-        }
-        throw request_overflow("message is too long");
     }
 
 }//namespace tas
