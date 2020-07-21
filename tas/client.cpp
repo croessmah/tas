@@ -145,13 +145,19 @@ void tas_client::callback_read(tas_overlapped_server & _srv, tas_operation const
 {
     tas_client * client = static_cast<tas_client *>(_operation.exdata);
     client->m_last_update_time = GetTickCount();
+    tas_size ansfer_size = 0;
     if (_e)
     {
-        client->reaccept(_srv);
-        return;
+        if (_e == ERROR_MORE_DATA)
+        {
+            memcpy(client->m_out_buffer, "input overflow", 14);
+            ansfer_size = 14;
+        }
     }
-    tas_size ansfer_size = client->process_query(_operation.written);
-
+    else
+    {
+        ansfer_size = client->process_query(_operation.written);
+    }    
     if (ansfer_size == 0 || !client->write(_srv, ansfer_size))
     {
         client->reaccept(_srv);
