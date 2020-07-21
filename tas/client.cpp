@@ -150,8 +150,9 @@ void tas_client::callback_read(tas_overlapped_server & _srv, tas_operation const
     {
         if (_e == ERROR_MORE_DATA)
         {
-            memcpy(client->m_out_buffer, "input overflow", 14);
-            ansfer_size = 14;
+            static char constexpr err[] = "msgfail";
+            memcpy(client->m_out_buffer, err, (sizeof(err) - 1));
+            ansfer_size = sizeof(err) - 1;
         }
     }
     else

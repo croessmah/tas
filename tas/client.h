@@ -8,7 +8,7 @@ class tas_client
 {
 public:
     static constexpr unsigned sc_in_buffer_size = 512;
-    static constexpr unsigned sc_out_buffer_size = 2048;
+    static constexpr unsigned sc_out_buffer_size = sc_in_buffer_size * 4 + 16;
     static constexpr wchar_t const * sc_pipes_name = L"\\\\.\\pipe\\tas_client";
     static constexpr tas_pipe_options sc_pipes_options =
     {

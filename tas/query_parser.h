@@ -14,7 +14,7 @@ private:
     bool parse_cdx() noexcept;
     bool process_cdx() noexcept;
     bool process_index() noexcept;
-
+    void make_format_error_output() noexcept;
     char const * m_in;
     char const * m_in_end;
     char * m_out_begin;
@@ -22,7 +22,6 @@ private:
     char * m_out_end_of_storage;
     class tas_controller * m_controllers;
     unsigned m_controllers_count;
-    int m_last_error;
     uint16_t m_cdx;
     uint16_t m_controller_index;
 };
