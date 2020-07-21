@@ -18,7 +18,8 @@ namespace
     uint32_t str_to_ip(char const * _str) noexcept
     {
         IN_ADDR addr;
-        bool ip_cvt_result = inet_pton(AF_INET, _str, &addr) == 1;
+        bool ip_cvt_result = (inet_pton(AF_INET, _str, &addr) == 1);
+        (void)ip_cvt_result;
         assert(ip_cvt_result && "invalid ip");
         return static_cast<uint32_t>(addr.S_un.S_addr);
     }

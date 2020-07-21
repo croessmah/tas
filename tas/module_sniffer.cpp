@@ -307,6 +307,7 @@ void tas_md_sniffer::generate_filter(char * _buf, tas_size _buf_size) noexcept
 {
     //"src 111.111.111.111 or src 111.111.111.111"
     assert("buffer is too small" && (_buf_size >= m_controllers_count * 20 + 4 * (m_controllers_count - 1)));
+    (void)_buf_size;
     *_buf = '\0';
     for (unsigned i = 0; i < m_controllers_count; ++i)
     {
