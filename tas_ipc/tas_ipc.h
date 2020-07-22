@@ -17,14 +17,30 @@ extern "C" {
 #define TAS_IPC_NOEXCEPT 
 #endif 
 
-#define TAS_ERR_INVALID_SIZE (~0u)
-#define TAS_ERR_SERVICE_NOT_FOUND (TAS_INVALID_SIZE - 1)
-#define TAS_ERR_SERVICE_CONNECTION_ERROR (TAS_INVALID_SIZE - 2)
-#define TAS_ERR_SERVICE_BUSY (TAS_INVALID_SIZE - 3)
-#define TAS_ERR_OVERFLOW (TAS_INVALID_SIZE - 4)
-#define TAS_ERR_BAD_ALLOCATION (TAS_INVALID_SIZE - 5)
-#define TAS_ERR_INVALID_VDX (TAS_INVALID_SIZE - 6)
-#define TAS_ERR_INVALID_PDX (TAS_INVALID_SIZE - 7)
+
+
+#define TAS_ERR_BEGIN_UCODE (~0u)
+#define TAS_ERR_MAKE_UCODE(code) (TAS_ERR_BEGIN_UCODE - (code))
+
+#define TAS_ERR_SUCCESS                         (0u)
+#define TAS_ERR_INVALID_SIZE                    TAS_ERR_MAKE_UCODE(0)
+#define TAS_ERR_REQUEST_OVERFLOW                TAS_ERR_MAKE_UCODE(1)
+#define TAS_ERR_REQUEST_TIMEDOUT                TAS_ERR_MAKE_UCODE(2)
+#define TAS_ERR_REQUEST_INVALID                 TAS_ERR_MAKE_UCODE(3)
+#define TAS_ERR_SERVICE_BUSY                    TAS_ERR_MAKE_UCODE(4)
+#define TAS_ERR_CONNECTION_ERROR                TAS_ERR_MAKE_UCODE(5)
+#define TAS_ERR_INVALID_CTL                     TAS_ERR_MAKE_UCODE(6)
+#define TAS_ERR_PARAM_NOT_FOUND                 TAS_ERR_MAKE_UCODE(7)
+#define TAS_ERR_UNEXPECTED                      TAS_ERR_MAKE_UCODE(8)
+/*
+#define TAS_ERR_BAD_ALLOCATION                  TAS_ERR_MAKE_UCODE(6)
+#define TAS_ERR_INVALID_VDX                     TAS_ERR_MAKE_UCODE(7)
+#define TAS_ERR_INVALID_PDX                     TAS_ERR_MAKE_UCODE(8)
+
+#define TAS_ERR_ALREADY_DEFINED                 TAS_ERR_MAKE_UCODE(10)
+
+#define TAS_ERR_TIMEDOUT                        TAS_ERR_MAKE_UCODE(12)
+*/
 
 typedef struct tas_query * tas_query_handle;
 

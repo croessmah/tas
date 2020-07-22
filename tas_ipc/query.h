@@ -4,7 +4,9 @@
 #include <cstdint>
 #include <vector>
 #include <string>
+#include <cstdint>
 #include <string_view>
+#include "request.h"
 
 struct tas_query {};
 
@@ -13,23 +15,30 @@ namespace tas
     class query: 
         public tas_query
     {
+        query(query const &) = delete;
+        query & operator=(query const &) = delete;
     public:
-        void add_rapam(uint16_t _pdx, uint16_t _vdx);
-        void remove_param(uint16_t _pdx, uint16_t _vdx);
+        static constexpr unsigned sc_infinite = ::tas::request::sc_infinite;
+        query(char const * _ctl_name);
+        ~query();
+        bool add_param(uint16_t _pdx, uint16_t _vdx);
         std::string_view get_param(uint16_t _pdx, uint16_t _vdx);
+        int64_t request(unsigned _timeout);
     private:
-        struct param
-        {
-            std::string_view view;
-            uint16_t cdx;
-        };
-
-        std::vector<uint16_t> m_cdxs;
+        int64_t parse_ansfer();
+        void clear_request();
+        struct param;
         std::vector<param> m_params;
-        std::vector<std::string> m_query_texts;
-        std::vector<std::string> m_ansfer_texts;
+        ::tas::request m_request;
+        std::string m_ansfer;
+        void (*m_validator)(uint16_t _pdx, uint16_t _cdx);
         uint16_t m_ctl_index;
     };
+
+
+    TAS_INTRODUCE_GENERAL_EXCEPTION(query_invalid_ctl, TAS_ERR_INVALID_CTL);
+    TAS_INTRODUCE_GENERAL_EXCEPTION(query_param_not_found, TAS_ERR_PARAM_NOT_FOUND);
+    TAS_INTRODUCE_GENERAL_EXCEPTION(tas_unexpected_error, TAS_ERR_UNEXPECTED);
 }//namespace tas
 
 
