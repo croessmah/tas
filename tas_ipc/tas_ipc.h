@@ -39,7 +39,6 @@ extern "C" {
 /*
 #define TAS_ERR_INVALID_VDX                     TAS_ERR_MAKE_UCODE(7)
 #define TAS_ERR_INVALID_PDX                     TAS_ERR_MAKE_UCODE(8)
-#define TAS_ERR_TIMEDOUT                        TAS_ERR_MAKE_UCODE(12)
 */
 
 typedef struct tas_query * tas_query_handle;

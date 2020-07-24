@@ -105,4 +105,5 @@ TAS_IPC_API unsigned tas_query_get_param(tas_query_handle _query, uint16_t _pdx,
         }
         return TAS_ERR_VALUE_NOT_FOUND;
     };
+    return safe_call(func);
 }
