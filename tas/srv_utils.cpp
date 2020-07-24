@@ -2,33 +2,35 @@
 #include "srv_utils.h"
 
 
-
-bool tas_srv_utils_open_service_all_access(wchar_t const * _name, DWORD _mode, SC_HANDLE & _manager, SC_HANDLE & _service)
+namespace
 {
-    SC_HANDLE scmanager = OpenSCManager(
-        NULL,
-        NULL,
-        SC_MANAGER_ALL_ACCESS
-    );
-    if (!scmanager)
+    bool tas_srv_utils_open_service_all_access(wchar_t const * _name, DWORD _mode, SC_HANDLE & _manager, SC_HANDLE & _service)
     {
-        return false;
-    }
+        SC_HANDLE scmanager = OpenSCManager(
+            NULL,
+            NULL,
+            SC_MANAGER_ALL_ACCESS
+        );
+        if (!scmanager)
+        {
+            return false;
+        }
 
-    SC_HANDLE service = OpenService(
-        scmanager,
-        _name,
-        _mode);
+        SC_HANDLE service = OpenService(
+            scmanager,
+            _name,
+            _mode);
 
-    if (!service)
-    {
-        CloseServiceHandle(scmanager);
-        return false;
+        if (!service)
+        {
+            CloseServiceHandle(scmanager);
+            return false;
+        }
+        _manager = scmanager;
+        _service = service;
+        return true;
     }
-    _manager = scmanager;
-    _service = service;
-    return true;
-}
+}//internal linkage
 
 
 bool tas_srv_utils_install_service(wchar_t const * _name)
