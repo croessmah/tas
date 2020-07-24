@@ -20,7 +20,6 @@ private:
     tas_application m_app;
     tas_md_sniffer m_sniffer;
     tas_md_ipc m_ipc;
-    unsigned m_tick_time;
 };
 
 
