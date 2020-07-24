@@ -31,7 +31,6 @@ namespace tas
         std::vector<param> m_params;
         ::tas::request m_request;
         std::string m_ansfer;
-        void (*m_validator)(uint16_t _pdx, uint16_t _cdx);
         uint16_t m_ctl_index;
     };
 

@@ -3,7 +3,6 @@
 #include <charconv>
 #include <cassert>
 #include "query.h"
-#include "validator.h"
 
 
 namespace
@@ -33,25 +32,6 @@ namespace
         return (_pdx << uint16_t(10u)) | (_vdx & uint16_t(0x3FF));
     }
 
-
-    void srgm_validate(uint16_t _pdx, uint16_t _cdx)
-    {
-        static tas::validator<3u> constexpr sc_validator =
-        {
-            {{10}, {10}, {10}},
-        };
-        sc_validator(_pdx, _cdx);
-    }
-
-
-    void ft5p_validate(uint16_t _pdx, uint16_t _cdx)
-    {
-        tas::validator<4u> constexpr sc_validator =
-        {
-            {{10}, {10}, {10}, {10}},
-        };
-        sc_validator(_pdx, _cdx);
-    }
     
 }//internal linkage
 
@@ -94,19 +74,16 @@ namespace tas
 
 
     query::query(char const * _ctl_name):
-        m_ctl_index(UINT16_MAX),
-        m_validator(nullptr)
+        m_ctl_index(UINT16_MAX)
     {
 
         if (!strcmp(_ctl_name, "srgm"))
         {
             m_ctl_index = 0;
-            m_validator = srgm_validate;
         }
         else if (!strcmp(_ctl_name, "ft5p"))
         {
             m_ctl_index = 1;
-            m_validator = ft5p_validate;
         }
         else
         {
@@ -122,7 +99,6 @@ namespace tas
 
     bool query::add_param(uint16_t _pdx, uint16_t _vdx)
     {
-        //m_validator(_pdx, _vdx);
         uint16_t cdx = make_cdx(_pdx, _vdx);
         auto it = std::lower_bound(m_params.begin(), m_params.end(), cdx);
         if (it != m_params.end() && it->cdx == cdx)
@@ -140,7 +116,6 @@ namespace tas
 
     std::string_view query::get_param(uint16_t _pdx, uint16_t _vdx)
     {
-        //m_validator(_pdx, _vdx);
         uint16_t cdx = make_cdx(_pdx, _vdx);
         auto it = std::lower_bound(m_params.begin(), m_params.end(), cdx);
         if (it != m_params.end() && it->cdx == cdx)
