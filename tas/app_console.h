@@ -13,8 +13,8 @@ class tas_app_console
     tas_app_console(tas_app_console const &) = delete;
     tas_app_console & operator=(tas_app_console const &) = delete;
 public:
-    tas_app_console(unsigned _tick_time);
-    int run();
+    tas_app_console(unsigned _tick_time) noexcept;
+    int run() noexcept;
 private:
     tas_controller m_controllers[2];
     tas_application m_app;
