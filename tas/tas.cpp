@@ -1,15 +1,23 @@
-﻿#include <Windows.h>
-#include <cstring>
+﻿#include <cstring>
+#include <cstdlib>
 #include "app_service.h"
 #include "app_console.h"
 #include "srv_utils.h"
+
+
+#ifdef NDEBUG //no debug
+#define APP_TYPE tas_app_service
+#else //debug
+#define APP_TYPE tas_app_console
+#endif 
+
 
 int wmain(int argc, wchar_t ** argv)
 {
     if (argc < 2)
     {
-        tas_app_service srv(100);
-        return srv.run();
+        APP_TYPE app(100);
+        return app.run();
     }    
 
     if (argc == 0)
