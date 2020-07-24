@@ -12,7 +12,7 @@ namespace tas
             std::runtime_error(_text),
             m_code(_code)
         {}
-        unsigned code() noexcept { return m_code; }
+        unsigned code() const noexcept { return m_code; }
     private:
         unsigned m_code;
     };
