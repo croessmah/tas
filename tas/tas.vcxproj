@@ -103,6 +103,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="application.cpp" />
+    <ClCompile Include="app_console.cpp" />
     <ClCompile Include="client.cpp" />
     <ClCompile Include="controller.cpp" />
     <ClCompile Include="module_ipc.cpp" />
@@ -117,6 +118,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="application.h" />
+    <ClInclude Include="app_console.h" />
     <ClInclude Include="client.h" />
     <ClInclude Include="controller.h" />
     <ClInclude Include="module_ipc.h" />

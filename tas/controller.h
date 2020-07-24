@@ -22,6 +22,7 @@ private:
 class tas_controller
 {
 public:
+    tas_controller(char const * _ip) noexcept;
     tas_controller(uint32_t _ip) noexcept;
     bool update(char const * _data, unsigned _size) noexcept;
     uint32_t ip() noexcept;
