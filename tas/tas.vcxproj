@@ -104,6 +104,7 @@
   <ItemGroup>
     <ClCompile Include="application.cpp" />
     <ClCompile Include="app_console.cpp" />
+    <ClCompile Include="app_service.cpp" />
     <ClCompile Include="client.cpp" />
     <ClCompile Include="controller.cpp" />
     <ClCompile Include="module_ipc.cpp" />
@@ -111,6 +112,7 @@
     <ClCompile Include="overlapped_server.cpp" />
     <ClCompile Include="pipe.cpp" />
     <ClCompile Include="query_parser.cpp" />
+    <ClCompile Include="srv_utils.cpp" />
     <ClCompile Include="tas.cpp" />
     <ClCompile Include="overlapped.cpp" />
     <ClCompile Include="packet_values.cpp" />
@@ -119,6 +121,7 @@
   <ItemGroup>
     <ClInclude Include="application.h" />
     <ClInclude Include="app_console.h" />
+    <ClInclude Include="app_service.h" />
     <ClInclude Include="client.h" />
     <ClInclude Include="controller.h" />
     <ClInclude Include="module_ipc.h" />
@@ -130,6 +133,7 @@
     <ClInclude Include="query_parser.h" />
     <ClInclude Include="simple_timer.h" />
     <ClInclude Include="packet_values.h" />
+    <ClInclude Include="srv_utils.h" />
     <ClInclude Include="tcp_collector.h" />
     <ClInclude Include="tcp_header.h" />
     <ClInclude Include="types.h" />

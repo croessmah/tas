@@ -57,6 +57,12 @@
     <ClCompile Include="app_console.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="app_service.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="srv_utils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="operation.h">
@@ -105,6 +111,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="app_console.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="app_service.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="srv_utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
