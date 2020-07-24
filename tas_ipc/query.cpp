@@ -130,7 +130,11 @@ namespace tas
             return false;
         }
         m_params.insert(it, { std::string_view(), cdx });
-        return m_request.add_number(cdx);
+        if (m_request.add_number(cdx))
+        {
+            return true;
+        }
+        throw request_overflow("request buffer overflow");
     }
 
 
