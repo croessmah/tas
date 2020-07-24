@@ -190,6 +190,7 @@ namespace tas
                 char const * end_token = find_space_or_null(begin);
                 auto v = std::string_view(begin, end_token - begin);
                 e.view = (v != "err") ? v : std::string_view();
+                begin = skip_spaces(end_token);//skip_spaces not required
             }
 
             if (begin != end)
