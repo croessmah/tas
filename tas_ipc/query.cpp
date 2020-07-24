@@ -122,7 +122,7 @@ namespace tas
 
     bool query::add_param(uint16_t _pdx, uint16_t _vdx)
     {
-        m_validator(_pdx, _vdx);
+        //m_validator(_pdx, _vdx);
         uint16_t cdx = make_cdx(_pdx, _vdx);
         auto it = std::lower_bound(m_params.begin(), m_params.end(), cdx);
         if (it != m_params.end() && it->cdx == cdx)
@@ -140,7 +140,7 @@ namespace tas
 
     std::string_view query::get_param(uint16_t _pdx, uint16_t _vdx)
     {
-        m_validator(_pdx, _vdx);
+        //m_validator(_pdx, _vdx);
         uint16_t cdx = make_cdx(_pdx, _vdx);
         auto it = std::lower_bound(m_params.begin(), m_params.end(), cdx);
         if (it != m_params.end() && it->cdx == cdx)

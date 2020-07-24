@@ -91,6 +91,7 @@
     <ClCompile Include="query.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="request.cpp" />
+    <ClCompile Include="tas_ipc.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="exceptions.h" />

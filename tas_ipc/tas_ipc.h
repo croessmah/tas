@@ -32,30 +32,27 @@ extern "C" {
 #define TAS_ERR_INVALID_CTL                     TAS_ERR_MAKE_UCODE(6)
 #define TAS_ERR_PARAM_NOT_FOUND                 TAS_ERR_MAKE_UCODE(7)
 #define TAS_ERR_UNEXPECTED                      TAS_ERR_MAKE_UCODE(8)
+#define TAS_ERR_BAD_ALLOCATION                  TAS_ERR_MAKE_UCODE(9)
+#define TAS_ERR_INVALID_PARAMETER               TAS_ERR_MAKE_UCODE(10)
+#define TAS_ERR_ALREADY_CONTAINED               TAS_ERR_MAKE_UCODE(11)
+#define TAS_ERR_VALUE_NOT_FOUND                 TAS_ERR_MAKE_UCODE(12)
 /*
-#define TAS_ERR_BAD_ALLOCATION                  TAS_ERR_MAKE_UCODE(6)
 #define TAS_ERR_INVALID_VDX                     TAS_ERR_MAKE_UCODE(7)
 #define TAS_ERR_INVALID_PDX                     TAS_ERR_MAKE_UCODE(8)
-
-#define TAS_ERR_ALREADY_DEFINED                 TAS_ERR_MAKE_UCODE(10)
-
 #define TAS_ERR_TIMEDOUT                        TAS_ERR_MAKE_UCODE(12)
 */
 
 typedef struct tas_query * tas_query_handle;
 
-TAS_IPC_API unsigned tas_query_run_service() TAS_IPC_NOEXCEPT;
-TAS_IPC_API unsigned tas_query_wait_service(unsigned _timeout) TAS_IPC_NOEXCEPT;
+//TAS_IPC_API unsigned tas_query_run_service() TAS_IPC_NOEXCEPT;
+//TAS_IPC_API unsigned tas_query_wait_service(unsigned _timeout) TAS_IPC_NOEXCEPT;
 
-TAS_IPC_API tas_query_handle tas_query_create_by_name(char const * _ctl_name) TAS_IPC_NOEXCEPT;
-TAS_IPC_API tas_query_handle tas_query_create(unsigned _ctl_index) TAS_IPC_NOEXCEPT;
+TAS_IPC_API tas_query_handle tas_query_create_by_name(char const * _ctl_name, unsigned * _e) TAS_IPC_NOEXCEPT;
 TAS_IPC_API void tas_query_destroy(tas_query_handle _query) TAS_IPC_NOEXCEPT;
 
 TAS_IPC_API unsigned tas_query_add_param(tas_query_handle _query, uint16_t _pdx, uint16_t _vdx) TAS_IPC_NOEXCEPT;
-TAS_IPC_API unsigned tas_query_remove_param(tas_query_handle _query, uint16_t _pdx, uint16_t _vdx) TAS_IPC_NOEXCEPT;
-TAS_IPC_API unsigned tas_query_apply(tas_query_handle _query, unsigned long _timeout) TAS_IPC_NOEXCEPT;
-TAS_IPC_API unsigned tas_query_get_rapam(tas_query_handle _query, uint16_t _pdx, uint16_t _vdx, char * _result_bufer, unsigned _result_size) TAS_IPC_NOEXCEPT;
-TAS_IPC_API unsigned tas_query_get_last_update_ctl(tas_query_handle _query) TAS_IPC_NOEXCEPT;
+TAS_IPC_API unsigned tas_query_apply(tas_query_handle _query, unsigned _timeout, int64_t * _update_lost) TAS_IPC_NOEXCEPT;
+TAS_IPC_API unsigned tas_query_get_param(tas_query_handle _query, uint16_t _pdx, uint16_t _vdx, char * _result, unsigned * _written) TAS_IPC_NOEXCEPT;
 
 #ifdef __cplusplus
 }

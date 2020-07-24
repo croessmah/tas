@@ -9,16 +9,22 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tas_ipc", "tas_ipc\tas_ipc.
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
 		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7D8E3EDA-4228-4CCA-87ED-BBF8D9BB7008}.Debug|x64.ActiveCfg = Debug|Win32
 		{7D8E3EDA-4228-4CCA-87ED-BBF8D9BB7008}.Debug|x86.ActiveCfg = Debug|Win32
 		{7D8E3EDA-4228-4CCA-87ED-BBF8D9BB7008}.Debug|x86.Build.0 = Debug|Win32
+		{7D8E3EDA-4228-4CCA-87ED-BBF8D9BB7008}.Release|x64.ActiveCfg = Release|Win32
 		{7D8E3EDA-4228-4CCA-87ED-BBF8D9BB7008}.Release|x86.ActiveCfg = Release|Win32
 		{7D8E3EDA-4228-4CCA-87ED-BBF8D9BB7008}.Release|x86.Build.0 = Release|Win32
+		{86BAF2A1-CDFC-4293-8634-C0C478C06E7D}.Debug|x64.ActiveCfg = Debug|Win32
 		{86BAF2A1-CDFC-4293-8634-C0C478C06E7D}.Debug|x86.ActiveCfg = Debug|Win32
 		{86BAF2A1-CDFC-4293-8634-C0C478C06E7D}.Debug|x86.Build.0 = Debug|Win32
+		{86BAF2A1-CDFC-4293-8634-C0C478C06E7D}.Release|x64.ActiveCfg = Release|Win32
 		{86BAF2A1-CDFC-4293-8634-C0C478C06E7D}.Release|x86.ActiveCfg = Release|Win32
 		{86BAF2A1-CDFC-4293-8634-C0C478C06E7D}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection

@@ -24,6 +24,9 @@
     <ClCompile Include="request.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="tas_ipc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="tas_ipc.h">
