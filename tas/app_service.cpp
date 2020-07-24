@@ -8,7 +8,7 @@
 
 namespace
 {
-    wchar_t const * g_service_name = L"tas";
+    wchar_t g_service_name[] = L"tas";
     SERVICE_STATUS g_service_status;
     SERVICE_STATUS_HANDLE g_service_status_handle;
     unsigned g_tick_time = 100;
@@ -83,7 +83,6 @@ namespace
 
 tas_app_service::tas_app_service(unsigned _tick_time) noexcept
 {
-    wcscpy(m_service_name, g_service_name);
     g_tick_time = _tick_time;
 }
 
@@ -92,7 +91,7 @@ int tas_app_service::run() noexcept
 {
     SERVICE_TABLE_ENTRYW table[2] =
     {
-        {m_service_name, service_main},
+        {g_service_name, service_main},
         {nullptr, nullptr}
     };
     if (!StartServiceCtrlDispatcherW(table))
@@ -102,10 +101,9 @@ int tas_app_service::run() noexcept
     return EXIT_SUCCESS;
 }
 
-
-wchar_t const * tas_app_service::service_name() const noexcept
+wchar_t const * tas_app_service::service_name() noexcept
 {
-    return m_service_name;
+    return g_service_name;
 }
 
 

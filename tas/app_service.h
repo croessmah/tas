@@ -11,9 +11,7 @@ public:
     tas_app_service(unsigned _tick_time) noexcept;
     int run() noexcept;
 
-    wchar_t const * service_name() const noexcept;
-private:
-    wchar_t m_service_name[128];
+    static wchar_t const * service_name() noexcept;
 };
 
 
