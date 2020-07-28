@@ -52,6 +52,7 @@ TAS_IPC_API void tas_query_destroy(tas_query_handle _query) TAS_IPC_NOEXCEPT;
 TAS_IPC_API unsigned tas_query_add_param(tas_query_handle _query, uint16_t _pdx, uint16_t _vdx) TAS_IPC_NOEXCEPT;
 TAS_IPC_API unsigned tas_query_apply(tas_query_handle _query, unsigned _timeout, int64_t * _update_lost) TAS_IPC_NOEXCEPT;
 TAS_IPC_API unsigned tas_query_get_param(tas_query_handle _query, uint16_t _pdx, uint16_t _vdx, char * _result, unsigned * _written) TAS_IPC_NOEXCEPT;
+TAS_IPC_API void tas_query_clear(tas_query_handle _query) TAS_IPC_NOEXCEPT;
 
 #ifdef __cplusplus
 }

@@ -111,3 +111,12 @@ TAS_IPC_API unsigned tas_query_get_param(tas_query_handle _query, uint16_t _pdx,
     };
     return safe_call(func);
 }
+
+
+TAS_IPC_API void tas_query_clear(tas_query_handle _query) TAS_IPC_NOEXCEPT
+{
+    if (!_query)
+    {
+        static_cast<tas::query *>(_query)->clear();
+    }
+}
