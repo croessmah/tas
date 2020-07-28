@@ -44,7 +44,11 @@ tas_query_handle tas_query_create_by_name(char const * _ctl_name, unsigned * _e)
         result = new tas::query(_ctl_name);
         return TAS_ERR_SUCCESS;        
     };
-    safe_call(func);
+    error = safe_call(func);
+    if (_e)
+    {
+        *_e = error;
+    }
     return result;
 }
 
