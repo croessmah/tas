@@ -34,6 +34,18 @@ namespace eye
     {
         param_t param;
         std::string value;
+        bool operator<(param_with_value_t const & _r) const noexcept
+        {
+            return param < _r.param;
+        }
+        bool operator==(param_with_value_t const & _r) const noexcept
+        {
+            return param == _r.param;
+        }
+        bool operator!=(param_with_value_t const & _r) const noexcept
+        {
+            return param != _r.param;
+        }
     };
 
 
