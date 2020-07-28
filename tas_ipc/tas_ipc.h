@@ -41,6 +41,7 @@ extern "C" {
 
 
 typedef struct tas_query * tas_query_handle;
+#define TAS_MAX_REQUEST_SIZE (512)
 
 //TAS_IPC_API unsigned tas_query_run_service() TAS_IPC_NOEXCEPT;
 //TAS_IPC_API unsigned tas_query_wait_service(unsigned _timeout) TAS_IPC_NOEXCEPT;

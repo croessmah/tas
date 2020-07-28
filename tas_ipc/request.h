@@ -14,7 +14,7 @@ namespace tas
 class request
 {
 public:
-    static constexpr unsigned sc_max_request_size = 512;
+    static constexpr unsigned sc_max_request_size = TAS_MAX_REQUEST_SIZE;
     static constexpr unsigned sc_infinite = UINT_MAX;
     request();
     std::string const & send(unsigned _timeout, bool _repeat_if_busy);
