@@ -29,8 +29,8 @@ private:
     bool create_capture_device() noexcept;
     bool valid_capture_device() noexcept;
     void capture_packets() noexcept;
-    int next_packet(char const *& _buf, tas_size & _size) noexcept;
-    void process_packet(char const * _buf, tas_size _size) noexcept;
+    int next_packet(char const *& _buf, tas_size & _size, uint64_t & _time) noexcept;
+    void process_packet(char const * _buf, tas_size _size, uint64_t _time) noexcept;
     bool find_tcp_connection() noexcept;
     bool set_capture_filter(uint32_t _netmask, char const * _filter) noexcept;
     void generate_filter(char * _buf, tas_size _buf_size) noexcept;

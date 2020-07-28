@@ -114,12 +114,9 @@ bool tas_query_parser::process_index() noexcept
     {
         m_out_end = std::to_chars(m_out_end, m_out_end_of_storage, m_controller_index).ptr;
         *(m_out_end++) = ' ';
-        uint64_t controller_update_lost_ms = m_controllers[m_controller_index].update_lost_ms();
-        if (controller_update_lost_ms != UINT64_MAX)
-        {
-            m_out_end = std::to_chars(m_out_end, m_out_end_of_storage, controller_update_lost_ms).ptr;
-            return true;
-        }
+        int64_t controller_update_time = m_controllers[m_controller_index].update_timestamp();
+        m_out_end = std::to_chars(m_out_end, m_out_end_of_storage, controller_update_time).ptr;
+        return true;
     }
     m_out_end = std::to_chars(m_out_end, m_out_end_of_storage, -1).ptr;
     return false;

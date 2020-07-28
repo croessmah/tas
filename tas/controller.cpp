@@ -18,26 +18,26 @@ namespace
 }
 
 
-
 tas_controller::tas_controller(char const * _ip) noexcept:
     tas_controller(str_to_ip(_ip))
 {
 }
 
-tas_controller::tas_controller( uint32_t _ip) noexcept:
+
+tas_controller::tas_controller(uint32_t _ip) noexcept:
     m_ip(_ip),
-    m_last_update(0)
+    m_timestamp(-1ll)
 {
 }
 
 
-bool tas_controller::update(char const * _data, unsigned _size) noexcept
+bool tas_controller::update(char const * _data, unsigned _size, uint64_t _time) noexcept
 {
     if (process_e2(_data, _size) && process_ip(_data, _size))
     {
         if (process_tcp(_data, _size))
         {
-            process_data();
+            process_data(_time);
         }
         return true;
     }
@@ -50,14 +50,12 @@ uint32_t tas_controller::ip() noexcept
     return m_ip;
 }
 
-uint64_t tas_controller::update_lost_ms() noexcept
+
+int64_t tas_controller::update_timestamp() const noexcept
 {
-    if (m_last_update == 0)
-    {
-        return UINT64_MAX;
-    }
-    return GetTickCount64() - m_last_update;
+    return m_timestamp;
 }
+
 
 bool tas_controller::process_e2(char const *& _data, unsigned & _size) noexcept
 {
@@ -79,6 +77,7 @@ bool tas_controller::process_e2(char const *& _data, unsigned & _size) noexcept
     } 
     return false;
 }
+
 
 bool tas_controller::process_ip(char const *& _data, unsigned & _size) noexcept
 {
@@ -111,19 +110,20 @@ bool tas_controller::process_ip(char const *& _data, unsigned & _size) noexcept
     return false;
 }
 
+
 bool tas_controller::process_tcp(char const * _data, unsigned _size) noexcept
 {
-
     return m_collector.update(_data, _size);;
 }
 
-void tas_controller::process_data() noexcept
+
+void tas_controller::process_data(uint64_t _time) noexcept
 {
     tas_packet_values packet;
     if (packet.parse(m_collector.data(), m_collector.size()) && 
         packet.pdx() < sc_max_packets_count)
     {
         m_packets[packet.pdx()] = packet;
-        m_last_update = GetTickCount64();
+        m_timestamp = static_cast<int64_t>(_time);
     }
 }

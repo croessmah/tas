@@ -41,6 +41,19 @@ namespace
         inet_ntop(AF_INET, &addr, _buf, _size);
         return _buf;
     }
+
+    uint64_t make_time()
+    {
+        SYSTEMTIME st{};
+        GetLocalTime(&st);
+        return st.wYear * 10000000000000ull +
+            st.wMonth   * 100000000000ull   +
+            st.wDay     * 1000000000ull     +
+            st.wHour    * 10000000ull       +
+            st.wMinute  * 100000ull         +
+            st.wSecond  * 1000ull           +
+            st.wMilliseconds;
+    }
 }
 
 
@@ -200,10 +213,11 @@ tas_md_sniffer::capture_packets() noexcept
     {
         char const * buf;
         tas_size size;
-        int res = next_packet(buf, size);
+        uint64_t time;
+        int res = next_packet(buf, size, time);
         if (res == 1)
         {
-            process_packet(buf, size);
+            process_packet(buf, size, time);
         }
         else
         {
@@ -218,7 +232,7 @@ tas_md_sniffer::capture_packets() noexcept
 
 
 int 
-tas_md_sniffer::next_packet(char const *& _buf, tas_size & _size) noexcept
+tas_md_sniffer::next_packet(char const *& _buf, tas_size & _size, uint64_t & _time) noexcept
 {    
     pcap_pkthdr * header;
     const u_char * pkt_data;
@@ -227,16 +241,17 @@ tas_md_sniffer::next_packet(char const *& _buf, tas_size & _size) noexcept
     {
         _buf = reinterpret_cast<char const *>(pkt_data);
         _size = header->caplen;
+        _time = make_time();
     }
     return res;
 }
 
 
-void tas_md_sniffer::process_packet(char const * _buf, tas_size _size) noexcept
+void tas_md_sniffer::process_packet(char const * _buf, tas_size _size, uint64_t _time) noexcept
 {
     for (unsigned i = 0; i < m_controllers_count; ++i)
     {
-        if (m_controllers[i].update(_buf, static_cast<unsigned>(_size)))
+        if (m_controllers[i].update(_buf, static_cast<unsigned>(_size), _time))
         {
             m_no_packet_timer.reset();
             break;

@@ -24,7 +24,7 @@ class tas_controller
 public:
     tas_controller(char const * _ip) noexcept;
     tas_controller(uint32_t _ip) noexcept;
-    bool update(char const * _data, unsigned _size) noexcept;
+    bool update(char const * _data, unsigned _size, uint64_t _time) noexcept;
     uint32_t ip() noexcept;
     char const * value(tas_cdx _cdx) noexcept
     {
@@ -33,15 +33,15 @@ public:
             nullptr;
     }
 
-    uint64_t update_lost_ms() noexcept;
+    int64_t update_timestamp() const noexcept;
 private:    
     bool process_e2(char const *& _data, unsigned & _size) noexcept;
     bool process_ip(char const *& _data, unsigned & _size) noexcept;
     bool process_tcp(char const * _data, unsigned _size) noexcept;
-    void process_data() noexcept;
+    void process_data(uint64_t _time) noexcept;
     static constexpr unsigned sc_max_packets_count = 3;
     uint32_t m_ip;
-    uint64_t m_last_update;
+    int64_t m_timestamp;
     tas_tcp_collector m_collector;
     tas_packet_values m_packets[sc_max_packets_count];
 };
