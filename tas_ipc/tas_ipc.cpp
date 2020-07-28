@@ -97,6 +97,7 @@ TAS_IPC_API unsigned tas_query_get_param(tas_query_handle _query, uint16_t _pdx,
     {
         return TAS_ERR_INVALID_PARAMETER;
     }
+    *_written = 0;
     auto func = [=]()
     {
         std::string_view value = static_cast<tas::query *>(_query)->get_param(_pdx, _vdx);
