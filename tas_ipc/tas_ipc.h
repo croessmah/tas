@@ -39,9 +39,9 @@ extern "C" {
 #define TAS_ERR_INVALID_PDX                     TAS_ERR_MAKE_UCODE(13)
 #define TAS_ERR_INVALID_VDX                     TAS_ERR_MAKE_UCODE(14)
 
-
 typedef struct tas_query * tas_query_handle;
 #define TAS_MAX_REQUEST_SIZE (512)
+#define TAS_MAKE_CDX(PDX, VDX) ((uint16_t(PDX) << uint16_t(10u)) | (uint16_t(VDX) & uint16_t(0x3FF)))
 
 //TAS_IPC_API unsigned tas_query_run_service() TAS_IPC_NOEXCEPT;
 //TAS_IPC_API unsigned tas_query_wait_service(unsigned _timeout) TAS_IPC_NOEXCEPT;
