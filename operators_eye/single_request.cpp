@@ -108,6 +108,14 @@ namespace eye
         return true;
     }
 
+    std::string single_request::get(uint16_t _pdx, uint16_t _vdx) const
+    {
+        char buffer[8];
+        unsigned written = 0;
+        tas_query_get_param(m_query.get(), _pdx, _vdx, buffer, &written);
+        return { buffer, written };
+    }
+
     bool single_request::rebuild()
     {
         tas_query_clear(m_query.get());

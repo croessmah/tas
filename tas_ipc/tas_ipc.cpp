@@ -93,11 +93,15 @@ TAS_IPC_API unsigned tas_query_apply(tas_query_handle _query, unsigned _timeout,
 
 TAS_IPC_API unsigned tas_query_get_param(tas_query_handle _query, uint16_t _pdx, uint16_t _vdx, char * _result, unsigned * _written) TAS_IPC_NOEXCEPT
 {
+    if (_written)
+    {
+        *_written = 0;
+    }
     if (!_query || !_result || !_written)
     {
         return TAS_ERR_INVALID_PARAMETER;
     }
-    *_written = 0;
+    
     auto func = [=]()
     {
         std::string_view value = static_cast<tas::query *>(_query)->get_param(_pdx, _vdx);

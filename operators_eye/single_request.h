@@ -48,6 +48,7 @@ namespace eye
         int64_t timestamp() const noexcept;
         std::vector<param_t> const & params() const noexcept;
         bool fill(std::vector<param_with_value_t> & _result) const;
+        std::string get(uint16_t _pdx, uint16_t _vdx) const;
     private:
         bool rebuild();
         struct tas_query_deleter
