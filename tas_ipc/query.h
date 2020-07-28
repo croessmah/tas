@@ -24,6 +24,7 @@ namespace tas
         bool add_param(uint16_t _pdx, uint16_t _vdx);
         std::string_view get_param(uint16_t _pdx, uint16_t _vdx);
         int64_t request(unsigned _timeout);
+        void clear() noexcept;
     private:
         int64_t parse_ansfer();
         void clear_request();

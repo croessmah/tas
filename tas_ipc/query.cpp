@@ -131,6 +131,12 @@ namespace tas
         m_ansfer = m_request.send(_timeout, true);
         return parse_ansfer();
     }
+
+    void query::clear() noexcept
+    {
+        clear_request();
+        m_params.clear();
+    }
     
 
     int64_t query::parse_ansfer()
