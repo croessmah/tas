@@ -7,14 +7,13 @@ namespace eye
 {
 
 
-    single_request::single_request(std::string _ctl_name) :
-        m_controller(std::move(_ctl_name)),
+    single_request::single_request(std::string const & _ctl_name):
         m_timestamp(-1),
         m_need_rebuild(true)
     {
         m_idxs.reserve((TAS_MAX_REQUEST_SIZE - 12) / 5);
 
-        m_query.reset(tas_query_create_by_name(m_controller.c_str(), nullptr));
+        m_query.reset(tas_query_create_by_name(_ctl_name.c_str(), nullptr));
         if (!m_query)
         {
             //todo: throw
@@ -108,6 +107,7 @@ namespace eye
         return true;
     }
 
+
     std::string single_request::get(uint16_t _pdx, uint16_t _vdx) const
     {
         char buffer[8];
@@ -115,6 +115,7 @@ namespace eye
         tas_query_get_param(m_query.get(), _pdx, _vdx, buffer, &written);
         return { buffer, written };
     }
+
 
     bool single_request::rebuild()
     {

@@ -40,7 +40,7 @@ namespace eye
     class single_request
     {
     public:
-        single_request(std::string _ctl_name);
+        single_request(std::string const & _ctl_name);
         ~single_request();
         bool add(uint16_t _pdx, uint16_t _vdx);
         bool remove(uint16_t _pdx, uint16_t _vdx);
@@ -55,7 +55,6 @@ namespace eye
         {
             void operator()(tas_query * _q) const noexcept;
         };
-        std::string m_controller;
         std::vector<param_t> m_idxs;
         int64_t m_timestamp;
         std::unique_ptr<tas_query, tas_query_deleter> m_query;
