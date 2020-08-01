@@ -25,6 +25,7 @@ namespace eye
 {
 
     controller::controller(std::string const & _ctl_name):
+        m_name(_ctl_name),
         m_timestamp(-1),
         m_need_rebuild(true)
     {
@@ -40,6 +41,12 @@ namespace eye
 
     controller::~controller()
     {
+    }
+
+
+    std::string_view controller::name() const noexcept
+    {
+        return m_name;
     }
 
 
