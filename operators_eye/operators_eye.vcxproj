@@ -12,9 +12,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="controller.cpp" />
+    <ClCompile Include="controllers_group.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="controller.h" />
+    <QtMoc Include="controller.h" />
+    <QtMoc Include="controllers_group.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{45AE96AA-C059-47E8-83F9-996CC978B926}</ProjectGuid>
