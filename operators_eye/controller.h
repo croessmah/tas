@@ -29,6 +29,8 @@ namespace eye
 
     class controller
     {
+        controller(controller const &) = delete;
+        controller & operator=(controller const &) = delete;
     public:
         controller(std::string const & _ctl_name);
         ~controller();
@@ -78,28 +80,6 @@ namespace eye
     }
 
 
-    inline bool operator<(controller const & _f, std::string_view _s) noexcept
-    {
-        return _f.compare(_s) < 0;
-    }
-
-
-    inline bool operator<(std::string_view _f, controller const & _s) noexcept
-    {
-        return _s.compare(_f) > 0;
-    }
-
-
-    inline bool operator==(controller const & _f, std::string_view _s) noexcept
-    {
-        return _f.compare(_s) == 0;
-    }
-
-
-    inline bool operator==(std::string_view _f, controller const & _s) noexcept
-    {
-        return _s.compare(_f) == 0;
-    }
 }//namespace eye
 
 #endif //INCLUDE_OPERATOR_EYE_CONTROLLER_H
