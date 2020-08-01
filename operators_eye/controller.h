@@ -5,6 +5,7 @@
 #include <string>
 #include <string_view>
 #include <cstdint>
+#include <qobject.h>
 
 struct tas_query;
 
@@ -27,18 +28,17 @@ namespace eye
     };
     
 
-    class controller
+    class controller: public QObject
     {
+        Q_OBJECT
+    public:
         controller(controller const &) = delete;
         controller & operator=(controller const &) = delete;
-    public:
-        controller(std::string const & _ctl_name);
+        controller(std::string const & _ctl_name, QObject * _parent);
         ~controller();
         std::string_view name() const noexcept;
         bool add(uint16_t _pdx, uint16_t _vdx);
         bool remove(uint16_t _pdx, uint16_t _vdx);
-        eUpdateResult update(unsigned _timeout);
-        eUpdateResult update(unsigned _timeout, bool & _has_update);
         int64_t timestamp() const noexcept;
         std::vector<param_t> const & params() const noexcept;        
         std::string_view get(uint16_t _pdx, uint16_t _vdx) const;
@@ -50,12 +50,22 @@ namespace eye
         }
 
         int compare(std::string_view _s) const
-        {
+        { 
             return m_name.compare(_s);
         }
+    public slots:
+        void update();//default timeout
+        void update(unsigned _timeout);
+    signals:
+        void update_failure(eUpdateResult);
+        void update_success(bool);
     private:
+        static constexpr unsigned sc_default_timeout = 500;
+        eUpdateResult update_aux(unsigned _timeout, bool & _has_update);
         bool update_values();
         bool rebuild();
+        std::vector<param_t>::iterator find(uint16_t _pdx, uint16_t _vdx) noexcept;
+        std::vector<param_t>::const_iterator find(uint16_t _pdx, uint16_t _vdx) const noexcept;
         struct tas_query_deleter
         {
             void operator()(tas_query * _q) const noexcept;
@@ -67,7 +77,7 @@ namespace eye
         bool m_need_rebuild;
     };
 
-
+    
     inline bool operator<(controller const & _f, controller const & _s) noexcept
     {
         return _f.compare(_s) < 0;

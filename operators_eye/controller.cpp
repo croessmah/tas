@@ -24,7 +24,8 @@ namespace
 namespace eye
 {
 
-    controller::controller(std::string const & _ctl_name):
+    controller::controller(std::string const & _ctl_name, QObject * _parent):
+        QObject(_parent),
         m_name(_ctl_name),
         m_timestamp(-1),
         m_need_rebuild(true)
@@ -56,8 +57,7 @@ namespace eye
         {
             return false;
         }
-        auto it = std::find(m_params.begin(), m_params.end(), param_t{ _pdx, _vdx });
-        if (it != m_params.end())
+        if (find(_pdx, _vdx) != m_params.end())
         {
             return false;
         }
@@ -69,7 +69,7 @@ namespace eye
 
     bool controller::remove(uint16_t _pdx, uint16_t _vdx)
     {
-        auto it = std::find(m_params.begin(), m_params.end(), param_t{ _pdx, _vdx, "" });
+        auto it = find(_pdx, _vdx);
         if (it == m_params.end())
         {
             return false;
@@ -80,14 +80,56 @@ namespace eye
     }
 
 
-    eUpdateResult controller::update(unsigned _timeout)
+    int64_t controller::timestamp() const noexcept
     {
-        bool has_update;
-        return update(_timeout, has_update);
+        return m_timestamp;
     }
 
 
-    eUpdateResult controller::update(unsigned _timeout, bool & _has_update)
+    std::vector<param_t> const & controller::params() const noexcept
+    {
+        return m_params;
+    }
+
+
+    std::string_view controller::get(uint16_t _pdx, uint16_t _vdx) const
+    {
+        auto it = find(_pdx, _vdx);
+        if (it != m_params.end())
+        {
+            return it->value;
+        }
+        return { };
+    }
+
+
+    unsigned controller::max_count() const noexcept
+    {
+        return static_cast<unsigned>(m_params.capacity());
+    }
+
+
+    void controller::update()
+    {
+        update(sc_default_timeout);
+    }
+
+
+    void controller::update(unsigned _timeout)
+    {
+        bool has_update;
+        eUpdateResult res = update_aux(_timeout, has_update);
+        if (res == eUpdateResult::Success)
+        {
+            emit update_success(has_update);
+        } else
+        {
+            emit update_failure(res);
+        }
+    }
+
+
+    eUpdateResult controller::update_aux(unsigned _timeout, bool & _has_update)
     {
         _has_update = false;
         if (m_need_rebuild && !rebuild())
@@ -107,35 +149,6 @@ namespace eye
             return eUpdateResult::Timedout;
         }
         return eUpdateResult::Error;
-    }
-
-
-    int64_t controller::timestamp() const noexcept
-    {
-        return m_timestamp;
-    }
-
-
-    std::vector<param_t> const & controller::params() const noexcept
-    {
-        return m_params;
-    }
-
-
-    std::string_view controller::get(uint16_t _pdx, uint16_t _vdx) const
-    {
-        auto it = std::find(m_params.begin(), m_params.end(), param_t{ _pdx, _vdx });
-        if (it != m_params.end())
-        {
-            return it->value;
-        }
-        return { };
-    }
-
-
-    unsigned controller::max_count() const noexcept
-    {
-        return static_cast<unsigned>(m_params.capacity());
     }
 
 
@@ -171,6 +184,26 @@ namespace eye
             }
         }
         return true;
+    }
+
+
+    std::vector<param_t>::iterator controller::find(uint16_t _pdx, uint16_t _vdx) noexcept
+    {
+        return std::find_if(
+            m_params.begin(), 
+            m_params.end(), 
+            [=](param_t const & _param) 
+            {
+                return _param.pdx == _pdx && _param.vdx == _vdx;
+            }
+        );
+    }
+
+
+    std::vector<param_t>::const_iterator controller::find(uint16_t _pdx, uint16_t _vdx) const noexcept
+    {
+        auto & ctl = const_cast<controller &>(*this);
+        return ctl.find(_pdx, _vdx);
     }
 
 
