@@ -12,11 +12,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="controller.cpp" />
-    <ClCompile Include="single_request.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="controller.h" />
-    <ClInclude Include="single_request.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{45AE96AA-C059-47E8-83F9-996CC978B926}</ProjectGuid>

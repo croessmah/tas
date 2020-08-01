@@ -75,6 +75,14 @@ namespace eye
 
     eUpdateResult controller::update(unsigned _timeout)
     {
+        bool has_update;
+        return update(_timeout, has_update);
+    }
+
+
+    eUpdateResult controller::update(unsigned _timeout, bool & _has_update)
+    {
+        _has_update = false;
         if (m_need_rebuild && !rebuild())
         {
             return eUpdateResult::Error;
@@ -84,7 +92,7 @@ namespace eye
         if (result == TAS_ERR_SUCCESS)
         {
             m_timestamp = timestamp;
-            update_values();
+            _has_update = update_values();
             return eUpdateResult::Success;
         }
         if (result == TAS_ERR_REQUEST_TIMEDOUT)
@@ -124,8 +132,9 @@ namespace eye
     }
 
 
-    void controller::update_values()
+    bool controller::update_values()
     {
+        bool has_update = false;
         for (auto & param : m_params)
         {
             char buffer[8];
@@ -133,12 +142,14 @@ namespace eye
             if (tas_query_get_param(m_query.get(), param.pdx, param.vdx, buffer, &written) == TAS_ERR_SUCCESS)
             {
                 std::string_view sw(buffer, written);
-                if (sw != param.value)
+                if (!sw.empty() && sw != param.value)
                 {
+                    has_update = true;
                     param.value.assign(sw.data(), sw.size());
                 }
             }
         }
+        return has_update;
     }
 
 

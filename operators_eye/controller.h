@@ -35,12 +35,13 @@ namespace eye
         bool add(uint16_t _pdx, uint16_t _vdx);
         bool remove(uint16_t _pdx, uint16_t _vdx);
         eUpdateResult update(unsigned _timeout);
+        eUpdateResult update(unsigned _timeout, bool & _has_update);
         int64_t timestamp() const noexcept;
         std::vector<param_t> const & params() const noexcept;        
         std::string_view get(uint16_t _pdx, uint16_t _vdx) const;
         unsigned max_count() const noexcept;
     private:
-        void update_values();
+        bool update_values();
         bool rebuild();
         struct tas_query_deleter
         {
