@@ -25,7 +25,9 @@ namespace
 
 tas_named_pipe::tas_named_pipe(tas_named_pipe && _src) noexcept:
     m_handle(_src.m_handle),
-    m_options(_src.m_options)
+    m_options(_src.m_options),
+    m_sd{},
+    m_sa{}
 {
     _src.m_handle = INVALID_HANDLE_VALUE;
 }
@@ -62,6 +64,16 @@ tas_named_pipe::create(wchar_t const * _name, tas_pipe_options const & _options)
     {
         return ERROR_INVALID_OPERATION;
     }
+
+    if (!InitializeSecurityDescriptor(&m_sd, SECURITY_DESCRIPTOR_REVISION))
+    {
+        return ERROR_ACCESS_DENIED;
+    }
+    m_sa.lpSecurityDescriptor = &m_sd;
+    if (!SetSecurityDescriptorDacl(&m_sd, true, nullptr, false)) {
+        return ERROR_ACCESS_DENIED;
+    }
+
     m_handle = CreateNamedPipeW(
         _name, 
         make_open_mode(_options.mode), 
@@ -70,7 +82,7 @@ tas_named_pipe::create(wchar_t const * _name, tas_pipe_options const & _options)
         _options.sys_out_buffer_size, 
         _options.sys_in_buffer_size, 
         0, 
-        NULL
+        &m_sa
     );
     return (m_handle != INVALID_HANDLE_VALUE) ? ERROR_SUCCESS : GetLastError();
 }

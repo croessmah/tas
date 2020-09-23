@@ -2,18 +2,23 @@
 
 #include <algorithm>
 #include <cassert>
-#include "controller.h"
+#include "Controller.h"
 
 namespace
 {
+    [[maybe_unused]]
     bool operator<(::eye::param_t const & _l, ::eye::param_t const & _r) noexcept
     {
         return _l.pdx < _r.pdx || (_l.pdx == _r.pdx && _l.vdx < _r.vdx);
     }
+
+    [[maybe_unused]]
     bool operator==(::eye::param_t const & _l, ::eye::param_t const & _r) noexcept
     {
         return _l.pdx == _r.pdx && _l.vdx == _r.vdx;
     }
+
+    [[maybe_unused]]
     bool operator!=(::eye::param_t const & _l, ::eye::param_t const & _r) noexcept
     {
         return !(_l == _r);
@@ -24,8 +29,7 @@ namespace
 namespace eye
 {
 
-    controller::controller(std::string const & _ctl_name, QObject * _parent):
-        QObject(_parent),
+    Controller::Controller(std::string const & _ctl_name):
         m_name(_ctl_name),
         m_timestamp(-1),
         m_need_rebuild(true)
@@ -40,18 +44,18 @@ namespace eye
     }
 
 
-    controller::~controller()
+    Controller::~Controller()
     {
     }
 
 
-    std::string_view controller::name() const noexcept
+    std::string_view Controller::name() const noexcept
     {
         return m_name;
     }
 
 
-    bool controller::add(uint16_t _pdx, uint16_t _vdx)
+    bool Controller::add(uint16_t _pdx, uint16_t _vdx)
     {
         if (m_params.size() == m_params.capacity())
         {
@@ -67,7 +71,7 @@ namespace eye
     }
 
 
-    bool controller::remove(uint16_t _pdx, uint16_t _vdx)
+    bool Controller::remove(uint16_t _pdx, uint16_t _vdx)
     {
         auto it = find(_pdx, _vdx);
         if (it == m_params.end())
@@ -76,23 +80,23 @@ namespace eye
         }
         m_params.erase(it);
         m_need_rebuild = true;
-        return false;
+        return true;
     }
 
 
-    int64_t controller::timestamp() const noexcept
+    int64_t Controller::timestamp() const noexcept
     {
         return m_timestamp;
     }
 
 
-    std::vector<param_t> const & controller::params() const noexcept
+    std::vector<param_t> const & Controller::params() const noexcept
     {
         return m_params;
     }
 
 
-    std::string_view controller::get(uint16_t _pdx, uint16_t _vdx) const
+    std::string_view Controller::get(uint16_t _pdx, uint16_t _vdx) const
     {
         auto it = find(_pdx, _vdx);
         if (it != m_params.end())
@@ -103,33 +107,26 @@ namespace eye
     }
 
 
-    unsigned controller::max_count() const noexcept
+    unsigned Controller::max_count() const noexcept
     {
         return static_cast<unsigned>(m_params.capacity());
     }
 
 
-    void controller::update()
+    bool Controller::update(bool & _has_update)
     {
-        update(sc_default_timeout);
+        return update(sc_default_timeout, _has_update);
     }
 
 
-    void controller::update(unsigned _timeout)
+    bool Controller::update(unsigned _timeout, bool & _has_update)
     {
-        bool has_update;
-        eUpdateResult res = update_aux(_timeout, has_update);
-        if (res == eUpdateResult::Success)
-        {
-            emit update_success(has_update);
-        } else
-        {
-            emit update_failure(res);
-        }
+        eUpdateResult res = update_aux(_timeout, _has_update);
+        return res == eUpdateResult::Success;
     }
 
 
-    eUpdateResult controller::update_aux(unsigned _timeout, bool & _has_update)
+    eUpdateResult Controller::update_aux(unsigned _timeout, bool & _has_update)
     {
         _has_update = false;
         if (m_need_rebuild && !rebuild())
@@ -152,7 +149,7 @@ namespace eye
     }
 
 
-    bool controller::update_values()
+    bool Controller::update_values()
     {
         bool has_update = false;
         for (auto & param : m_params)
@@ -173,7 +170,7 @@ namespace eye
     }
 
 
-    bool controller::rebuild()
+    bool Controller::rebuild()
     {
         tas_query_clear(m_query.get());
         for (auto e : m_params)
@@ -187,12 +184,12 @@ namespace eye
     }
 
 
-    std::vector<param_t>::iterator controller::find(uint16_t _pdx, uint16_t _vdx) noexcept
+    std::vector<param_t>::iterator Controller::find(uint16_t _pdx, uint16_t _vdx) noexcept
     {
         return std::find_if(
-            m_params.begin(), 
-            m_params.end(), 
-            [=](param_t const & _param) 
+            m_params.begin(),
+            m_params.end(),
+            [=](param_t const & _param)
             {
                 return _param.pdx == _pdx && _param.vdx == _vdx;
             }
@@ -200,14 +197,14 @@ namespace eye
     }
 
 
-    std::vector<param_t>::const_iterator controller::find(uint16_t _pdx, uint16_t _vdx) const noexcept
+    std::vector<param_t>::const_iterator Controller::find(uint16_t _pdx, uint16_t _vdx) const noexcept
     {
-        auto & ctl = const_cast<controller &>(*this);
+        auto & ctl = const_cast<Controller &>(*this);
         return ctl.find(_pdx, _vdx);
     }
 
 
-    void controller::tas_query_deleter::operator()(tas_query * _q) const noexcept
+    void Controller::tas_query_deleter::operator()(tas_query * _q) const noexcept
     {
         tas_query_destroy(_q);
     }

@@ -1,8 +1,10 @@
-﻿#include <cstring>
+#include <Windows.h>
+#include <cstring>
 #include <cstdlib>
 #include "app_service.h"
 #include "app_console.h"
 #include "srv_utils.h"
+
 
 
 #ifdef NDEBUG //no debug
@@ -12,13 +14,14 @@
 #endif 
 
 
-int wmain(int argc, wchar_t ** argv)
+
+int start(int argc, wchar_t ** argv)
 {
     if (argc < 2)
     {
         APP_TYPE app(100);
         return app.run();
-    }    
+    }
 
     if (argc == 0)
     {
@@ -30,7 +33,7 @@ int wmain(int argc, wchar_t ** argv)
         tas_app_console app(100);
         return app.run();
     }
-        
+
     bool(*utils_function)(wchar_t const *) = nullptr;
     if (wcscmp(argv[1], L"install") == 0)
     {
@@ -48,7 +51,26 @@ int wmain(int argc, wchar_t ** argv)
     {
         utils_function = tas_srv_utils_stop_service;
     }
-    return (utils_function && utils_function(tas_app_service::service_name())) ? 
-        EXIT_SUCCESS : 
+    return (utils_function && utils_function(tas_app_service::service_name())) ?
+        EXIT_SUCCESS :
         EXIT_FAILURE ;
 }
+
+
+int main()
+{
+    LPWSTR * szArglist;
+    int args_count = 0;
+
+    szArglist = CommandLineToArgvW(GetCommandLineW(), &args_count);
+    if( NULL == szArglist )
+    {
+       return EXIT_FAILURE;
+    }
+
+    int result = start(args_count, szArglist);
+    LocalFree(szArglist);
+    return result;
+}
+
+

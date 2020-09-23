@@ -2,6 +2,7 @@
 #ifndef INCLUDE_TAS_PIPE_H
 #define INCLUDE_TAS_PIPE_H
 
+#include <Windows.h>
 #include "types.h"
 
 
@@ -44,6 +45,8 @@ public:
 private:
     tas_handle m_handle;
     tas_pipe_options m_options;
+    SECURITY_DESCRIPTOR m_sd;
+    SECURITY_ATTRIBUTES m_sa;
 };
 
 
